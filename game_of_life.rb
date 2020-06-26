@@ -20,10 +20,6 @@ class GameOfLife
     board.each { |elem| puts "#{elem}" }
   end
 
-  def show_neighborhood
-    neighborhood.each { |elem| puts "#{elem}" }
-  end
-
   def next_state(values = (1..size-2).to_a)
     values.each do |row|
       values.each { |col| rules(row, col) }
@@ -54,21 +50,22 @@ class GameOfLife
   end
 
   private
-    attr_reader :size
-    def still_alive?(row, col)
-      neighborhood[row][col] == 2 || neighborhood[row][col] == 3
-    end
+  attr_reader :size
+  def still_alive?(row, col)
+    neighborhood[row][col] == 2 || neighborhood[row][col] == 3
+  end
+    
+  game = GameOfLife.new(10)
+  game.create_board_randomly
 
-    game = GameOfLife.new(10)
-    puts "\nFirst board state"
-    game.create_board_randomly
-    game.show_board
+  counter = 1
+  while counter <= 10  do
+    puts "\n**************************************************"
+    puts "Board state number # #{counter}"
     game.next_state
-    
-    puts "\nNumber of neighbors of each cell"
-    game.show_neighborhood
-    
-    puts "\nNext board state"
     game.find_life
     game.show_board
+    puts "\n**************************************************"
+    counter += 1
+  end
 end
